@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>demo.weixin.public</groupId>
     <artifactId>weixin-public-developer</artifactId>
-    <version>v0.0.1</version>
+    <version>v0.0.2</version>
 
     <repositories>
         <repository>
