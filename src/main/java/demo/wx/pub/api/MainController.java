@@ -78,6 +78,11 @@ public class MainController {
         log.debug("{}", data);
         try {
             Msg msg = new Msg(data);
+            String fu = msg.getFromUserName();
+            String tu = msg.getToUserName();
+            msg.setFromUserName(tu);
+            msg.setToUserName(fu);
+            log.debug("returned msg: {}", msg);
             return msg.toString();
         } catch (SAXException e) {
             e.printStackTrace();
