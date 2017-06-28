@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -53,7 +55,26 @@ public class MainController {
 
     @PostMapping("/developer")
     @ResponseBody  public String business(HttpServletRequest req) throws AesException {
-        String data = req.getParameter("data");
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = null;
+        try {
+            br = req.getReader();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null){
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        String data = sb.toString();
         log.debug("{}", data);
         try {
             Msg msg = new Msg(data);
