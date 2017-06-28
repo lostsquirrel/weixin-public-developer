@@ -21,6 +21,9 @@ clean:
 pull:
 	docker pull $(VERSIONED_IMAGE)
 
+push:
+    docker pull $(VERSIONED_IMAGE)
+    
 build: copy
 	docker build --no-cache --build-arg VERSION=$(VERSION) \
 	-t $(VERSIONED_IMAGE) .
