@@ -21,7 +21,7 @@ clean:
 pull:
 	docker pull $(VERSIONED_IMAGE)
 
-build:
+build: copy
 	docker build --no-cache --build-arg VERSION=$(VERSION) \
 	-t $(VERSIONED_IMAGE) .
 
@@ -35,7 +35,7 @@ static: static-update
 	sudo cp -rf $(STATIC_SOURCE) $(STATIC_DEPLOY)
 
 java-update:
-	git reset --hard && git pull origin master
+	git reset --hard && git pull --all
 
 config: java-update
 	cp -rf $(CONFIG_DIR)/* src/main/resources

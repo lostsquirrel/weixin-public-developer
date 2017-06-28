@@ -3,7 +3,7 @@ VOLUME /tmp
 
 ARG VERSION
 
-ADD weixin-public-${VERSION}.jar app.jar
+ADD weixin-public-developer-${VERSION}.jar app.jar
 
 ADD config/ config
 
