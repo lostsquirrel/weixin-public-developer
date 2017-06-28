@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * 微信消息对象
@@ -73,9 +74,9 @@ public class Msg {
             "   <CreateTime>{%s}</CreateTime>" +
             "   <MsgType><![CDATA[%s]]></MsgType>" +
             "   <Content><![CDATA[{%s}]]></Content>" +
-            "</xml>";
+            "</xml>\n";
 
-        return String.format(fmt, toUserName, fromUserName, createTime, type, new String(content.getBytes(), Charset.forName("UTF-8")));
+        return String.format(fmt, toUserName, fromUserName, new Date().getTime(), type, new String(content.getBytes(), Charset.forName("UTF-8")));
     }
 
     public static Logger getLog() {

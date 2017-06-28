@@ -87,7 +87,7 @@ public class MainController {
         } catch (SAXException e) {
             e.printStackTrace();
         }
-
-        return null;
+        log.info("failed to hand msg");
+        return "success";
     }
 }
