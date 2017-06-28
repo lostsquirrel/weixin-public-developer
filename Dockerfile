@@ -5,8 +5,6 @@ ARG VERSION
 
 ADD weixin-public-developer-${VERSION}.jar app.jar
 
-ADD config/ config
-
 RUN sh -c 'touch /app.jar'
 
 ENV JAVA_OPTS=""
