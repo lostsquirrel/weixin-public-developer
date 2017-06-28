@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -74,7 +75,7 @@ public class Msg {
             "   <Content><![CDATA[{%s}]]></Content>" +
             "</xml>";
 
-        return String.format(fmt, toUserName, fromUserName, createTime, type, content);
+        return String.format(fmt, toUserName, fromUserName, createTime, type, new String(content.getBytes(), Charset.forName("UTF-8")));
     }
 
     public static Logger getLog() {
