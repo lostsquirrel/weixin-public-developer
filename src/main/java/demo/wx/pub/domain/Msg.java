@@ -24,6 +24,10 @@ import java.util.Date;
  */
 public class Msg {
 
+    public static final String MSG_TYPE_TEXT = "text";
+
+    public static final String MSG_TYPE_IMAGE = "image";
+
     private static final Logger log = LoggerFactory.getLogger(Msg.class);
     
     private String toUserName;
@@ -38,6 +42,10 @@ public class Msg {
 
     private String content;
 
+    private String picUrl;
+
+    private String mediaId;
+
     public Msg(String xmldata) throws SAXException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db;
@@ -47,12 +55,22 @@ public class Msg {
             InputSource is = new InputSource(sr);
             Document document = db.parse(is);
             Element root = document.getDocumentElement();
+            this.id = getField(root, "MsgId");
             this.toUserName = getField(root, "ToUserName");
             this.fromUserName = getField(root, "FromUserName");
             this.createTime = getField(root, "CreateTime");
-            this.content = getField(root, "Content");
+
             this.type = getField(root, "MsgType");
-            this.id = getField(root, "MsgId");
+            switch (type) {
+                case MSG_TYPE_TEXT:
+                    this.content = getField(root, "Content");
+                    break;
+                case MSG_TYPE_IMAGE:
+                    this.picUrl = getField(root, "PicUrl");
+                    this.mediaId = getField(root, "MediaId");
+                    break;
+            }
+
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -63,20 +81,47 @@ public class Msg {
 
     private String getField(Element root, String fieldName) {
         NodeList nodeList = root.getElementsByTagName(fieldName);
-        return nodeList.item(0).getTextContent();
+        String f = "";
+        if (nodeList != null && nodeList.getLength() > 0){
+            f = nodeList.item(0).getTextContent();
+        }
+        return f;
     }
 
     @Override
     public String toString() {
-        String fmt = "<xml>" +
-            "<ToUserName><![CDATA[%s]]></ToUserName>" +
-            "<FromUserName><![CDATA[%s]]></FromUserName>" +
-            "<CreateTime>%s</CreateTime>" +
-            "<MsgType><![CDATA[%s]]></MsgType>" +
-            "<Content><![CDATA[%s]]></Content>" +
-            "</xml>\n";
+        String msg = "success";
+        long creatTime = new Date().getTime() / 1000;
+        switch (type) {
+            case MSG_TYPE_TEXT:
+                String fmt = "<xml>" +
+                    "<ToUserName><![CDATA[%s]]></ToUserName>" +
+                    "<FromUserName><![CDATA[%s]]></FromUserName>" +
+                    "<CreateTime>%s</CreateTime>" +
+                    "<MsgType><![CDATA[%s]]></MsgType>" +
+                    "<Content><![CDATA[%s]]></Content>" +
+                    "</xml>\n";
+                String content = new String(this.content.getBytes(), Charset.forName("UTF-8"));
+                msg = String.format(fmt, toUserName, fromUserName, creatTime, type, content);
+                break;
+            case MSG_TYPE_IMAGE:
+                fmt = "<xml>" +
+                    "<ToUserName><![CDATA[%s]]></ToUserName>" +
+                    "<FromUserName><![CDATA[%s]]></FromUserName>" +
+                    "<CreateTime>%s</CreateTime>" +
+                    "<MsgType><![CDATA[image]]></MsgType>" +
+                    "<Image>" +
+                    "<MediaId><![CDATA[%s]]></MediaId>" +
+                    "</Image>" +
+                    "</xml>\n";
+                msg = String.format(fmt, toUserName, fromUserName, creatTime, mediaId);
+                break;
+        }
 
-        return String.format(fmt, toUserName, fromUserName, new Date().getTime() / 1000, type, new String(content.getBytes(), Charset.forName("UTF-8")));
+
+
+
+        return msg;
     }
 
     public static Logger getLog() {
