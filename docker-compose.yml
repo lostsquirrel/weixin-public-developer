@@ -1,0 +1,16 @@
+version: "2"
+services:
+    redis:
+        image: redis:alpine
+        networks:
+            - frontend
+    worker:
+        image: registry.cn-hangzhou.aliyuncs.com/lisong/cognitive:0.1.0
+        networks:
+            - frontend
+        depends_on:
+            - redis
+        ports:
+            - "8080:8080"
+networks:
+    frontend:
