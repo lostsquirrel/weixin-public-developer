@@ -2,14 +2,18 @@ package demo.wx.pub.api;
 
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
+import com.qq.weixin.mp.aes.XMLParse;
+import demo.wx.pub.domain.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * Created by lisong on 2017/4/7.
@@ -48,7 +52,15 @@ public class MainController {
     }
 
     @PostMapping("/developer")
-    @ResponseBody  public Object business(HttpServletRequest req) {
+    @ResponseBody  public String business(HttpServletRequest req) throws AesException {
+        String data = req.getParameter("data");
+        log.debug("{}", data);
+        try {
+            Msg msg = new Msg(data);
+            return msg.toString();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
