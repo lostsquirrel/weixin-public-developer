@@ -40,7 +40,7 @@ config: java-update
 
 
 package: config
-	mvn clean package
+	mvn clean package -DskipTests=true
 
 copy: package
 	cp -f target/$(PROJECT_NAME)-$(VERSION).jar .

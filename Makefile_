@@ -11,15 +11,15 @@ export VERSION
 export VERSIONED_IMAGE
 
 clean:
-        docker-compose down
-        docker-compose rm --force
+	docker-compose down
+	docker-compose rm --force
 
 pull:
-        docker pull $(VERSIONED_IMAGE)
+	docker pull $(VERSIONED_IMAGE)
 
 
 up: pull
-        docker-compose up -d
+	docker-compose up -d
 
 log:
-        docker-compose logs -f
+	docker-compose logs -f
