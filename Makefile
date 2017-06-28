@@ -6,8 +6,6 @@ REGISTRY=registry.cn-hangzhou.aliyuncs.com
 IMAGE=$(REGISTRY)/lisong/$(PROJECT_NAME)
 VERSIONED_IMAGE=$(IMAGE):$(VERSION_TAG)
 
-STATIC_SOURCE=/home/lisong/sources/web_test_base/cognitive
-STATIC_DEPLOY=/var/www/html/demos/
 
 CONFIG_DIR=../config
 
@@ -31,11 +29,8 @@ build: copy
 up: pull
 	docker-compose up -d
 
-static-update:
-	cd $(STATIC_SOURCE) && git pull
-
-static: static-update
-	sudo cp -rf $(STATIC_SOURCE) $(STATIC_DEPLOY)
+log:
+	docker-compose logs -f
 
 java-update:
 	git reset --hard && git pull --all

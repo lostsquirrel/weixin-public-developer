@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"demo.cognitive"})
+@ComponentScan({"demo.wx.pub"})
 @EnableConfigurationProperties({WXProp.class})
 @EnableAutoConfiguration
 @EnableCaching
