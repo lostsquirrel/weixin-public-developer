@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 VERSION=$(shell echo `git describe --abbrev=0 --tags`)
-PROJECT_NAME=weixin-public
+PROJECT_NAME=weixin-public-developer
 VERSION_TAG=$(VERSION)
 REGISTRY=registry.cn-hangzhou.aliyuncs.com
 IMAGE=$(REGISTRY)/lisong/$(PROJECT_NAME)
