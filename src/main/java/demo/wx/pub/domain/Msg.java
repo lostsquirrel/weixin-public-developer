@@ -69,14 +69,14 @@ public class Msg {
     @Override
     public String toString() {
         String fmt = "<xml>" +
-            "   <ToUserName><![CDATA[{%s}]]></ToUserName>" +
-            "   <FromUserName><![CDATA[{%s}]]></FromUserName>" +
-            "   <CreateTime>{%s}</CreateTime>" +
-            "   <MsgType><![CDATA[%s]]></MsgType>" +
-            "   <Content><![CDATA[{%s}]]></Content>" +
+            "<ToUserName><![CDATA[%s]]></ToUserName>" +
+            "<FromUserName><![CDATA[%s]]></FromUserName>" +
+            "<CreateTime>%s</CreateTime>" +
+            "<MsgType><![CDATA[%s]]></MsgType>" +
+            "<Content><![CDATA[%s]]></Content>" +
             "</xml>\n";
 
-        return String.format(fmt, toUserName, fromUserName, new Date().getTime(), type, new String(content.getBytes(), Charset.forName("UTF-8")));
+        return String.format(fmt, toUserName, fromUserName, new Date().getTime() / 1000, type, new String(content.getBytes(), Charset.forName("UTF-8")));
     }
 
     public static Logger getLog() {
