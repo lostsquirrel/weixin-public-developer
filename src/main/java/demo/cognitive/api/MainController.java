@@ -39,6 +39,7 @@ public class MainController {
                           ) {
 
         try {
+            log.debug(signature, timestamp, nonce, echostr);
             return wxBizMsgCrypt.verifyUrl(signature, timestamp, nonce, echostr);
         } catch (AesException e) {
             e.printStackTrace();

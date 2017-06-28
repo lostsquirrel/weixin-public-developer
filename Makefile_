@@ -1,0 +1,25 @@
+SHELL=/bin/bash
+PROJECT_NAME=weixin-public-developer
+VERSION=$(shell cat version.txt)
+VERSION_TAG=$(VERSION)
+REGISTRY=registry.cn-hangzhou.aliyuncs.com
+IMAGE=$(REGISTRY)/lisong/$(PROJECT_NAME)
+VERSIONED_IMAGE=$(IMAGE):$(VERSION_TAG)
+
+
+export VERSION
+export VERSIONED_IMAGE
+
+clean:
+        docker-compose down
+        docker-compose rm --force
+
+pull:
+        docker pull $(VERSIONED_IMAGE)
+
+
+up: pull
+        docker-compose up -d
+
+log:
+        docker-compose logs -f
