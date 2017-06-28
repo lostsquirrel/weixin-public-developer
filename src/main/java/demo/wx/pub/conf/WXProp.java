@@ -1,4 +1,4 @@
-package demo.cognitive.conf;
+package demo.wx.pub.conf;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;

@@ -1,5 +1,5 @@
-import demo.cognitive.app.Application;
-import demo.cognitive.conf.WXProp;
+import demo.wx.pub.app.Application;
+import demo.wx.pub.conf.WXProp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

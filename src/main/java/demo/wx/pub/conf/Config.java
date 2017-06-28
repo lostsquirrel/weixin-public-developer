@@ -1,4 +1,4 @@
-package demo.cognitive.conf;
+package demo.wx.pub.conf;
 
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;

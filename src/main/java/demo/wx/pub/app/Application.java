@@ -1,6 +1,6 @@
-package demo.cognitive.app;
+package demo.wx.pub.app;
 
-import demo.cognitive.conf.WXProp;
+import demo.wx.pub.conf.WXProp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

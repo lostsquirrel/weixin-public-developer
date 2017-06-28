@@ -1,4 +1,4 @@
-package demo.cognitive.api;
+package demo.wx.pub.api;
 
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
@@ -39,7 +39,7 @@ public class MainController {
                           ) {
 
         try {
-            log.debug(signature, timestamp, nonce, echostr);
+            log.debug("{}-{}-{}-{}",signature, timestamp, nonce, echostr);
             return wxBizMsgCrypt.verifyUrl(signature, timestamp, nonce, echostr);
         } catch (AesException e) {
             e.printStackTrace();

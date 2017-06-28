@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="demo.cognitive" level="debug" />
+    <logger name="demo.wx.pub" level="debug" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
