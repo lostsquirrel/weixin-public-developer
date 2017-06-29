@@ -1,7 +1,6 @@
 package demo.wx.pub.domain;
 
-import com.qq.weixin.mp.aes.AesException;
-import com.qq.weixin.mp.aes.XMLParse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -16,7 +15,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -24,9 +22,13 @@ import java.util.Date;
  */
 public class Msg {
 
-    public static final String MSG_TYPE_TEXT = "text";
+    private static final String MSG_TYPE_TEXT = "text";
 
-    public static final String MSG_TYPE_IMAGE = "image";
+    private static final String MSG_TYPE_IMAGE = "image";
+
+    private static final String MSG_TYPE_EVENT = "event";
+
+    private static final String MSG_EVENT_TYPE_CLICK = "CLICK";
 
     private static final Logger log = LoggerFactory.getLogger(Msg.class);
     
@@ -45,6 +47,16 @@ public class Msg {
     private String picUrl;
 
     private String mediaId;
+
+    private String event;
+
+    private String eventKey;
+
+    private String bindUrl;
+
+    public void setBindUrl(String bindUrl) {
+        this.bindUrl = bindUrl;
+    }
 
     public Msg(String xmldata) throws SAXException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -69,11 +81,12 @@ public class Msg {
                     this.picUrl = getField(root, "PicUrl");
                     this.mediaId = getField(root, "MediaId");
                     break;
+                case MSG_TYPE_EVENT:
+                    this.event = getField(root, "Event");
+                    this.eventKey = getField(root, "EventKey");
             }
 
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ParserConfigurationException | IOException e) {
             e.printStackTrace();
         }
 
@@ -116,6 +129,19 @@ public class Msg {
                     "</xml>\n";
                 msg = String.format(fmt, toUserName, fromUserName, creatTime, mediaId);
                 break;
+            case MSG_TYPE_EVENT:
+                if (MSG_EVENT_TYPE_CLICK.equals(event)) {
+                    fmt = "<xml>\n" +
+                        "<ToUserName><![CDATA[%s]]></ToUserName>" +
+                        "<FromUserName><![CDATA[%s]]></FromUserName>" +
+                        "<CreateTime>%s</CreateTime>" +
+                        "<MsgType><![CDATA[event]]></MsgType>" +
+                        "<Event><![CDATA[VIEW]]></Event>" +
+                        "<EventKey><![CDATA[%]]></EventKey>" +
+//                        "<MenuId>MENUID</MenuId>" +
+                        "</xml>";
+                    msg = String.format(fmt, toUserName, fromUserName, creatTime, bindUrl);
+                }
         }
 
 

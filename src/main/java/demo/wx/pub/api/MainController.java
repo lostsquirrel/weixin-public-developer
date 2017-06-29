@@ -1,9 +1,8 @@
 package demo.wx.pub.api;
 
-import com.qq.weixin.mp.aes.AesException;
-import com.qq.weixin.mp.aes.WXBizMsgCrypt;
-import com.qq.weixin.mp.aes.XMLParse;
+import demo.wx.pub.conf.WXProp;
 import demo.wx.pub.domain.Msg;
+import demo.wx.pub.utils.WXNoneCryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.xml.sax.SAXException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Created by lisong on 2017/4/7.
@@ -25,14 +23,17 @@ public class MainController {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
-    private final WXBizMsgCrypt wxBizMsgCrypt;
+    private final WXNoneCryptUtils wxNoneCryptUtil;
 
     @Value("${weixin.developer.token}")
     private String token;
 
+    @Value("${weixin.bind.url}")
+    private String bindUrl;
+
     @Autowired
-    public MainController(WXBizMsgCrypt wxBizMsgCrypt) {
-        this.wxBizMsgCrypt = wxBizMsgCrypt;
+    public MainController(WXNoneCryptUtils wxNoneCryptUtil) {
+        this.wxNoneCryptUtil = wxNoneCryptUtil;
     }
 
     @GetMapping("/developer")
@@ -44,17 +45,19 @@ public class MainController {
             @RequestParam(value = "echostr", required = false) String echostr
                           ) {
 
-        try {
             log.debug("{}-{}-{}-{}",signature, timestamp, nonce, echostr);
-            return wxBizMsgCrypt.verifyUrlWithoutDecrypt(signature, timestamp, nonce, echostr);
-        } catch (AesException e) {
-            e.printStackTrace();
-            return  e.getMessage();
-        }
+            String msg;
+            if (wxNoneCryptUtil.verify(signature, timestamp, nonce)) {
+                msg = echostr;
+            } else {
+                msg = "验签失败";
+            }
+            return  msg;
+
     }
 
     @PostMapping("/developer")
-    @ResponseBody  public String business(HttpServletRequest req) throws AesException {
+    @ResponseBody  public String business(HttpServletRequest req)  {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = null;
         try {
@@ -78,8 +81,10 @@ public class MainController {
         log.debug("{}", data);
         try {
             Msg msg = new Msg(data);
+            msg.setBindUrl(bindUrl);
             String fu = msg.getFromUserName();
             String tu = msg.getToUserName();
+//            交换收发人
             msg.setFromUserName(tu);
             msg.setToUserName(fu);
             log.debug("returned msg: {}", msg);
@@ -89,5 +94,10 @@ public class MainController {
         }
         log.info("failed to hand msg");
         return "success";
+    }
+
+    @RequestMapping("/bind")
+    public String test(HttpServletRequest req) {
+        return req.getParameterMap().toString();
     }
 }

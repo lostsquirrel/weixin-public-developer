@@ -1,7 +1,8 @@
-import com.qq.weixin.mp.aes.AesException;
-import com.qq.weixin.mp.aes.WXBizMsgCrypt;
+
 import demo.wx.pub.app.Application;
 import demo.wx.pub.conf.WXProp;
+import demo.wx.pub.utils.WXNoneCryptUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ApplicationTest {
     private WXProp api;
 
     @Autowired
-    private WXBizMsgCrypt wxBizMsgCrypt;
+    private WXNoneCryptUtils wxBizMsgCrypt;
 
     @Test
     public void testCSApi() {
@@ -29,7 +30,12 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testVerifyUrl() throws AesException {
-        wxBizMsgCrypt.verifyUrlWithoutDecrypt("34dc76a9824347e04a0dfec69dfa52207c0df4b4", "1498631554", "1649648946", "5188922958761385914");
+    public void testVerifyUrl()  {
+        boolean res = wxBizMsgCrypt.verify("34dc76a9824347e04a0dfec69dfa52207c0df4b4", "1498631554", "1649648946");
+        Assert.assertTrue(res);
+    }
+
+    public void testAccessToken() {
+
     }
 }

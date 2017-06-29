@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="demo.wx.pub" level="debug" />
+    <logger name="demo.wx" level="debug" />
     <logger name="com.qq.weixin.mp.aes" level="debug" />
 
     <root level="INFO">

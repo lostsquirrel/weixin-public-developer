@@ -1,7 +1,8 @@
 package demo.wx.pub.conf;
 
-import com.qq.weixin.mp.aes.AesException;
-import com.qq.weixin.mp.aes.WXBizMsgCrypt;
+
+import demo.wx.pub.utils.AccessTokenUtils;
+import demo.wx.pub.utils.WXNoneCryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,13 @@ public class Config {
         this.wxProp = wxProp;
     }
 
-    @Bean public WXBizMsgCrypt wxBizMsgCrypt() throws AesException {
-        return new WXBizMsgCrypt(wxProp.getToken(), wxProp.getAppId());
+    @Bean
+    public WXNoneCryptUtils wxNoneCrpytUtil() {
+        return new WXNoneCryptUtils(wxProp.getToken());
+    }
+
+    @Bean
+    public AccessTokenUtils accessTokenUtils() {
+        return new AccessTokenUtils(wxProp.getAppId(), wxProp.getSecret());
     }
 }

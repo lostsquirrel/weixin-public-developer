@@ -10,7 +10,11 @@ public class WXProp {
 
     private String appId;
 
+    private String secret;
+
     private String key;
+
+    private String bind;
 
     public String getToken() {
         return token;
@@ -34,5 +38,13 @@ public class WXProp {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }
