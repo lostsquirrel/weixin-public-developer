@@ -140,7 +140,7 @@ public class Msg {
                         "<EventKey><![CDATA[%s]]></EventKey>" +
 //                        "<MenuId>MENUID</MenuId>" +
                         "</xml>\n";
-                    msg = String.format(fmt, toUserName, fromUserName, creatTime, bindUrl);
+                    msg = String.format(fmt, toUserName, fromUserName, creatTime, String.format("%s?openId=%s", bindUrl, toUserName));
                 }
         }
 
