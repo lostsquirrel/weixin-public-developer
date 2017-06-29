@@ -26,7 +26,7 @@ build: copy
 	docker build --no-cache --build-arg VERSION=$(VERSION) \
 	-t $(VERSIONED_IMAGE) .
 
-up: pull
+up:
 	docker-compose up -d
 
 log:
@@ -44,3 +44,6 @@ package: config
 
 copy: package
 	cp -f target/$(PROJECT_NAME)-$(VERSION).jar .
+
+
+# docker rmi -f $(docker images -f "dangling=true" -q)
