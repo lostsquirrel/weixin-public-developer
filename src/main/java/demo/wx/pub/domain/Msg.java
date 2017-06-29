@@ -131,7 +131,7 @@ public class Msg {
                 break;
             case MSG_TYPE_EVENT:
                 if (MSG_EVENT_TYPE_CLICK.equals(event)) {
-                    fmt = "<xml>\n" +
+                    fmt = "<xml>" +
                         "<ToUserName><![CDATA[%s]]></ToUserName>" +
                         "<FromUserName><![CDATA[%s]]></FromUserName>" +
                         "<CreateTime>%s</CreateTime>" +
