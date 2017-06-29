@@ -119,7 +119,7 @@ public class MainController {
     public void bind(@RequestParam(value = "code", required = false) String code,
                        HttpServletResponse resp) {
 //        第一次没有参数，调用接口获取code
-        if (StringUtils.hasLength(code)) {
+        if (StringUtils.isEmpty(code)) {
             String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
             HttpUtils.getAsString(url);
         } else {
