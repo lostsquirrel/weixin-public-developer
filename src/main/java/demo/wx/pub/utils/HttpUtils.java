@@ -44,7 +44,7 @@ public class HttpUtils {
         InputStream res = entity.getContent();
         ContentType ct = ContentType.getOrDefault(entity);
         Charset charset = ct.getCharset();
-        log.debug(charset.toString());
+        log.debug("{}", charset);
         StringBuilder sb = new StringBuilder();
         if (res != null){
             try (
