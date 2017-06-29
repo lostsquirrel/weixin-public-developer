@@ -26,11 +26,12 @@ public class HttpUtils {
 
     public static String getAsString(String url) {
         HttpGet httpGet = new HttpGet(url);
-
+        httpGet.setHeader("Content-Type", ContentType.create("text/plain", "utf-8").toString());
         String content = null;
         try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
             log.debug("{}\n{}", url, response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
+            log.debug(entity1.getContentType().toString());
             InputStream res = entity1.getContent();
             content = readStreamAsString(res);
             EntityUtils.consume(entity1);

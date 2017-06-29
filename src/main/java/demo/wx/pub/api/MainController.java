@@ -109,7 +109,7 @@ public class MainController {
         return "success";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     @ResponseBody
     public String test(HttpServletRequest req) {
         return req.getParameterMap().toString();
