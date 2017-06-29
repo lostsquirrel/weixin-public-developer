@@ -139,7 +139,7 @@ public class Msg {
                         "<Event><![CDATA[VIEW]]></Event>" +
                         "<EventKey><![CDATA[%s]]></EventKey>" +
 //                        "<MenuId>MENUID</MenuId>" +
-                        "</xml>";
+                        "</xml>\n";
                     msg = String.format(fmt, toUserName, fromUserName, creatTime, bindUrl);
                 }
         }
