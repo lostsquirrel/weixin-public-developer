@@ -117,7 +117,9 @@ public class MainController {
 
     @RequestMapping("/bind")
     public void bind(@RequestParam(value = "code", required = false) String code,
+                       HttpServletRequest req,
                        HttpServletResponse resp) {
+        log.debug(req.getParameterMap().toString());
 //        第一次没有参数，调用接口获取code
         if (StringUtils.isEmpty(code)) {
             String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
