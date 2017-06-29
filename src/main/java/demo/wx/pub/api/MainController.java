@@ -116,31 +116,31 @@ public class MainController {
     }
 
     @RequestMapping("/bind")
-    public void bind(@RequestParam(value = "code", required = false) String code,
-                       HttpServletRequest req,
-                       HttpServletResponse resp) {
+    public void bind(HttpServletRequest req,
+                     HttpServletResponse resp) {
         log.debug(req.getParameterMap().toString());
 //        第一次没有参数，调用接口获取code
-        if (StringUtils.isEmpty(code)) {
-            String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
-            String xx = HttpUtils.getAsString(url);
-            log.debug(xx);
-        } else {
-            //         第二次以code为参数 请求 web access_token 和 openId,并重写向到 带openId参数绑定页面
-            String res = HttpUtils.getAsString(WXApiUrls.getWebAccessTokenUrl(wxProp.getAppId(), wxProp.getSecret(), code));
+        String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
+        String xx = HttpUtils.getAsString(url);
+        log.debug(xx);
+    }
 
-            if (res.contains("errcode")) {
-                log.error(res);
-            } else {
-                JSONObject obj = JSON.parseObject(res);
-                String openId = obj.getString("openid");
-                try {
-                    resp.sendRedirect(String.format("%s?openid=%s", realBindUrl, openId));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    @RequestMapping("/auth")
+    public void auth(@RequestParam(value = "code") String code, HttpServletRequest req,
+                     HttpServletResponse resp) {
+        //         第二次以code为参数 请求 web access_token 和 openId,并重写向到 带openId参数绑定页面
+        String res = HttpUtils.getAsString(WXApiUrls.getWebAccessTokenUrl(wxProp.getAppId(), wxProp.getSecret(), code));
+
+        if (res.contains("errcode")) {
+            log.error(res);
+        } else {
+            JSONObject obj = JSON.parseObject(res);
+            String openId = obj.getString("openid");
+            try {
+                resp.sendRedirect(String.format("%s?openid=%s", realBindUrl, openId));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
     }
 }

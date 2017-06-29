@@ -32,8 +32,8 @@ public class HttpUtils {
             log.debug("{}\n{}", url, response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
             log.debug(entity1.getContentType().toString());
-            InputStream res = entity1.getContent();
-            content = readStreamAsString(res);
+
+            content = readStreamAsString(entity1);
             EntityUtils.consume(entity1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,7 +41,11 @@ public class HttpUtils {
         return content;
     }
 
-    private static String readStreamAsString(InputStream res) {
+    private static String readStreamAsString(HttpEntity entity) throws IOException {
+
+        InputStream res = entity.getContent();
+        ContentType ct = ContentType.getOrDefault(entity);
+        Charset charset = ct.getCharset();
         StringBuilder sb = new StringBuilder();
         if (res != null){
             try (
@@ -49,13 +53,24 @@ public class HttpUtils {
             ) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    sb.append(new String(line.getBytes(), Charset.defaultCharset()));
+                    sb.append(line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return sb.toString();
+        String s = sb.toString();
+        if (StringUtils.hasLength(s)) {
+
+            byte[] bytes;
+            if (charset != null) {
+                bytes = s.getBytes(charset);
+            } else {
+                bytes = s.getBytes();
+            }
+            s = new String(bytes, Charset.defaultCharset());
+        }
+        return s;
     }
 
     public static String postJsonAsString(String url, String JsonParams) {
@@ -72,7 +87,7 @@ public class HttpUtils {
             CloseableHttpResponse response2 = httpclient.execute(httpPost)
             ){
             HttpEntity entity2 = response2.getEntity();
-            content = readStreamAsString(entity2.getContent());
+            content = readStreamAsString(entity2);
             EntityUtils.consume(entity2);
         } catch (IOException e) {
             log.error(e.getMessage());
