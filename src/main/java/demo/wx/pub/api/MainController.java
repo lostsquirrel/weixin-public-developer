@@ -117,11 +117,11 @@ public class MainController {
 
     @RequestMapping("/bind")
     public void bind(HttpServletRequest req,
-                     HttpServletResponse resp) {
+                     HttpServletResponse resp) throws IOException {
         log.debug(JSON.toJSONString(req.getParameterMap()));
 //        第一次没有参数，调用接口获取code
         String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
-        HttpUtils.getAsString(url);
+        resp.sendRedirect(url);
     }
 
     @RequestMapping("/auth")
