@@ -112,22 +112,22 @@ public class MainController {
     @RequestMapping("/test")
     @ResponseBody
     public String test(HttpServletRequest req) {
-        return req.getParameterMap().toString();
+        return JSON.toJSONString(req.getParameterMap());
     }
 
     @RequestMapping("/bind")
     public void bind(HttpServletRequest req,
                      HttpServletResponse resp) {
-        log.debug(req.getParameterMap().toString());
+        log.debug(JSON.toJSONString(req.getParameterMap()));
 //        第一次没有参数，调用接口获取code
         String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
-        String xx = HttpUtils.getAsString(url);
-        log.debug(xx);
+        HttpUtils.getAsString(url);
     }
 
     @RequestMapping("/auth")
     public void auth(@RequestParam(value = "code") String code, HttpServletRequest req,
                      HttpServletResponse resp) {
+        log.debug(JSON.toJSONString(req.getParameterMap()));
         //         第二次以code为参数 请求 web access_token 和 openId,并重写向到 带openId参数绑定页面
         String res = HttpUtils.getAsString(WXApiUrls.getWebAccessTokenUrl(wxProp.getAppId(), wxProp.getSecret(), code));
 
@@ -137,7 +137,9 @@ public class MainController {
             JSONObject obj = JSON.parseObject(res);
             String openId = obj.getString("openid");
             try {
-                resp.sendRedirect(String.format("%s?openid=%s", realBindUrl, openId));
+                String realBindUrlx = String.format("%s?openid=%s", realBindUrl, openId);
+                log.debug("redirect to {}", realBindUrlx);
+                resp.sendRedirect(realBindUrlx);
             } catch (IOException e) {
                 e.printStackTrace();
             }

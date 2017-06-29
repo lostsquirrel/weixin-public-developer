@@ -31,8 +31,6 @@ public class HttpUtils {
         try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
             log.debug("{}\n{}", url, response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
-            log.debug(entity1.getContentType().toString());
-
             content = readStreamAsString(entity1);
             EntityUtils.consume(entity1);
         } catch (IOException e) {
@@ -46,6 +44,7 @@ public class HttpUtils {
         InputStream res = entity.getContent();
         ContentType ct = ContentType.getOrDefault(entity);
         Charset charset = ct.getCharset();
+        log.debug(charset.toString());
         StringBuilder sb = new StringBuilder();
         if (res != null){
             try (
@@ -70,6 +69,7 @@ public class HttpUtils {
             }
             s = new String(bytes, Charset.defaultCharset());
         }
+        log.debug(s);
         return s;
     }
 
@@ -92,7 +92,7 @@ public class HttpUtils {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        log.debug(content);
+
         return content;
     }
 
