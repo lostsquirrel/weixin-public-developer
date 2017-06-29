@@ -123,10 +123,12 @@ public class MainController {
 //        第一次没有参数，调用接口获取code
         if (StringUtils.isEmpty(code)) {
             String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
-            HttpUtils.getAsString(url);
+            String xx = HttpUtils.getAsString(url);
+            log.debug(xx);
         } else {
             //         第二次以code为参数 请求 web access_token 和 openId,并重写向到 带openId参数绑定页面
             String res = HttpUtils.getAsString(WXApiUrls.getWebAccessTokenUrl(wxProp.getAppId(), wxProp.getSecret(), code));
+
             if (res.contains("errcode")) {
                 log.error(res);
             } else {

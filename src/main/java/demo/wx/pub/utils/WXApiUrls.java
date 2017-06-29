@@ -19,7 +19,7 @@ public class WXApiUrls {
 
     private static final String SET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=%s";
 
-    private static final String WEB_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code ";
+    private static final String WEB_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
 
     public static String getAccessTokenUrl(String appId, String secret) {
         return String.format(ACCESS_TOKEN, appId, secret);
