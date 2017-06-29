@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
@@ -47,7 +48,7 @@ public class MainController {
 
             log.debug("{}-{}-{}-{}",signature, timestamp, nonce, echostr);
             String msg;
-            if (wxNoneCryptUtil.verify(signature, timestamp, nonce)) {
+            if (StringUtils.hasLength(signature) && wxNoneCryptUtil.verify(signature, timestamp, nonce)) {
                 msg = echostr;
             } else {
                 msg = "验签失败";
