@@ -98,7 +98,7 @@ public class MainController {
     }
 
     @RequestMapping("/bind")
-    public String test(HttpServletRequest req) {
+    @ResponseBody public String test(HttpServletRequest req) {
         return req.getParameterMap().toString();
     }
 }

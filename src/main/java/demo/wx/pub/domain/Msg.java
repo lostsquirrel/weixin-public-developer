@@ -135,10 +135,10 @@ public class Msg {
                         "<ToUserName><![CDATA[%s]]></ToUserName>" +
                         "<FromUserName><![CDATA[%s]]></FromUserName>" +
                         "<CreateTime>%s</CreateTime>" +
-                        "<MsgType><![CDATA[event]]></MsgType>" +
-                        "<Event><![CDATA[VIEW]]></Event>" +
-                        "<EventKey><![CDATA[%s]]></EventKey>" +
-//                        "<MenuId>MENUID</MenuId>" +
+                        "<MsgType><![CDATA[link]]></MsgType>" +
+                        "<Title><![CDATA[官网链接]]></Title>" +
+                        "<Description><![CDATA[官网链接]]></Description>"+
+                        "<Url><![CDATA[%s]]></Url>"+
                         "</xml>\n";
                     msg = String.format(fmt, toUserName, fromUserName, creatTime, String.format("%s?openId=%s", bindUrl, toUserName));
                 }
