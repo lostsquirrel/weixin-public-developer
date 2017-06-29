@@ -35,7 +35,7 @@ public class AccessTokenUtils {
     private void createAccessToken() {
         synchronized (AccessTokenUtils.class) {
             expireOffset = new Date().getTime() / 1000;
-            String accessTokenUrl = WXApiUrls.getAccessToken(appId, secret);
+            String accessTokenUrl = WXApiUrls.getAccessTokenUrl(appId, secret);
 
             Object res = HttpUtils.getAsString(accessTokenUrl);
             JSONObject obj = JSON.parseObject(res.toString());

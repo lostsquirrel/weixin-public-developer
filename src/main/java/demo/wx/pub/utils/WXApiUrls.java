@@ -14,7 +14,14 @@ public class WXApiUrls {
     private static final String MENU_QUERY = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s";
 
     private static final String SNSAPI_BASE = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s#wechat_redirect";
-    public static String getAccessToken(String appId, String secret) {
+
+    private static final String QUERY_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s";
+
+    private static final String SET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=%s";
+
+    private static final String WEB_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code ";
+
+    public static String getAccessTokenUrl(String appId, String secret) {
         return String.format(ACCESS_TOKEN, appId, secret);
     }
 
@@ -30,7 +37,19 @@ public class WXApiUrls {
         return String.format(MENU_QUERY, getAccessToken());
     }
 
-    public static String getPageBase(String appId, String url, String other) {
+    public static String getQueryIndustryUrl() {
+        return String.format(QUERY_INDUSTRY, getAccessToken());
+    }
+
+    public static String getSetIndustryUrl() {
+        return String.format(SET_INDUSTRY, getAccessToken());
+    }
+
+    public static String getWebAccessTokenUrl(String appId, String secret, String code) {
+        return String.format(WEB_ACCESS_TOKEN, appId, secret, code);
+    }
+
+    public static String getBaseAuth(String appId, String url, String other) {
         try {
             return String.format(SNSAPI_BASE, appId, URLEncoder.encode(url, "utf-8"), other);
         } catch (UnsupportedEncodingException e) {
@@ -38,7 +57,8 @@ public class WXApiUrls {
         }
         return null;
     }
+
     private static String getAccessToken() {
-        return "FjvJIIPvGGQ9NlE4ofo8EHY_VztMKswXYNRbQsDsJIl9Ml7Df6UiojkPpxSFtuypzH7NCKEH5VwUIp8M4dtnIjBdaVPsfdA9IM6yAqRgGMf7K7HVvmbgfgAfTWSKHZXeNQTfAHASVY";
+        return "XuEKuYj0cgCKWdMTSibAw13xMlPAbrPXqjEkfYXsJDkFphKtesiPWH9UYVaE0COA4_OMHp9qI1U1libpX25O2qc_4lc1z8D2LJXKoLJpRmtr7yiO4Kuf7SOEHGRdxIHoXPHaADAFXP";
     }
 }

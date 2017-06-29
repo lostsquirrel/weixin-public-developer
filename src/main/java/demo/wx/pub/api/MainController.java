@@ -1,7 +1,11 @@
 package demo.wx.pub.api;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import demo.wx.pub.conf.WXProp;
 import demo.wx.pub.domain.Msg;
+import demo.wx.pub.utils.HttpUtils;
+import demo.wx.pub.utils.WXApiUrls;
 import demo.wx.pub.utils.WXNoneCryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -32,33 +37,40 @@ public class MainController {
     @Value("${weixin.bind.url}")
     private String bindUrl;
 
+    @Value("${weixin.bind.real}")
+    private String realBindUrl;
+
+    private final WXProp wxProp;
+
     @Autowired
-    public MainController(WXNoneCryptUtils wxNoneCryptUtil) {
+    public MainController(WXNoneCryptUtils wxNoneCryptUtil, WXProp wxProp) {
         this.wxNoneCryptUtil = wxNoneCryptUtil;
+        this.wxProp = wxProp;
     }
 
     @GetMapping("/developer")
     @ResponseBody
     public String verify(
-            @RequestParam(value = "signature", required = false) String signature,
-            @RequestParam(value = "timestamp", required = false) String timestamp,
-            @RequestParam(value = "nonce", required = false) String nonce,
-            @RequestParam(value = "echostr", required = false) String echostr
-                          ) {
+        @RequestParam(value = "signature", required = false) String signature,
+        @RequestParam(value = "timestamp", required = false) String timestamp,
+        @RequestParam(value = "nonce", required = false) String nonce,
+        @RequestParam(value = "echostr", required = false) String echostr
+    ) {
 
-            log.debug("{}-{}-{}-{}",signature, timestamp, nonce, echostr);
-            String msg;
-            if (StringUtils.hasLength(signature) && wxNoneCryptUtil.verify(signature, timestamp, nonce)) {
-                msg = echostr;
-            } else {
-                msg = "验签失败";
-            }
-            return  msg;
+        log.debug("{}-{}-{}-{}", signature, timestamp, nonce, echostr);
+        String msg;
+        if (StringUtils.hasLength(signature) && wxNoneCryptUtil.verify(signature, timestamp, nonce)) {
+            msg = echostr;
+        } else {
+            msg = "验签失败";
+        }
+        return msg;
 
     }
 
     @PostMapping("/developer")
-    @ResponseBody  public String business(HttpServletRequest req)  {
+    @ResponseBody
+    public String business(HttpServletRequest req) {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = null;
         try {
@@ -70,7 +82,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (br != null){
+            if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
@@ -97,8 +109,34 @@ public class MainController {
         return "success";
     }
 
-    @RequestMapping("/bind")
-    @ResponseBody public String test(HttpServletRequest req) {
+    @RequestMapping("/")
+    @ResponseBody
+    public String test(HttpServletRequest req) {
         return req.getParameterMap().toString();
+    }
+
+    @RequestMapping("/bind")
+    public void bind(@RequestParam(value = "code", required = false) String code,
+                       HttpServletResponse resp) {
+//        第一次没有参数，调用接口获取code
+        if (StringUtils.hasLength(code)) {
+            String url = WXApiUrls.getBaseAuth(wxProp.getAppId(), bindUrl, "");
+            HttpUtils.getAsString(url);
+        } else {
+            //         第二次以code为参数 请求 web access_token 和 openId,并重写向到 带openId参数绑定页面
+            String res = HttpUtils.getAsString(WXApiUrls.getWebAccessTokenUrl(wxProp.getAppId(), wxProp.getSecret(), code));
+            if (res.contains("errcode")) {
+                log.error(res);
+            } else {
+                JSONObject obj = JSON.parseObject(res);
+                String openId = obj.getString("openid");
+                try {
+                    resp.sendRedirect(String.format("%s?openid=%s", realBindUrl, openId));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

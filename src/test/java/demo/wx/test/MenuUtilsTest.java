@@ -26,16 +26,16 @@ public class MenuUtilsTest {
             "     \"button\":[\n" +
             "     {\t\n" +
             "          \"type\":\"click\",\n" +
-            "          \"name\":\"今日歌曲\",\n" +
-            "          \"key\":\"V1001_TODAY_MUSIC\"\n" +
+            "          \"name\":\"消息\",\n" +
+            "          \"key\":\"\"\n" +
             "      },\n" +
             "      {\n" +
             "           \"name\":\"菜单\",\n" +
             "           \"sub_button\":[\n" +
             "           {\t\n" +
-            "               \"type\":\"click\",\n" +
+            "               \"type\":\"view\",\n" +
             "               \"name\":\"绑定\",\n" +
-            "               \"key\":\"bind\"\n" +
+            "               \"url\":\"https://demos.shangao.tech/api/wx/public/auth\"\n" +
             "            }]\n" +
             "       }]\n" +
             " }";
