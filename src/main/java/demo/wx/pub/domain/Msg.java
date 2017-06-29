@@ -137,7 +137,7 @@ public class Msg {
                         "<CreateTime>%s</CreateTime>" +
                         "<MsgType><![CDATA[event]]></MsgType>" +
                         "<Event><![CDATA[VIEW]]></Event>" +
-                        "<EventKey><![CDATA[%]]></EventKey>" +
+                        "<EventKey><![CDATA[%s]]></EventKey>" +
 //                        "<MenuId>MENUID</MenuId>" +
                         "</xml>";
                     msg = String.format(fmt, toUserName, fromUserName, creatTime, bindUrl);
