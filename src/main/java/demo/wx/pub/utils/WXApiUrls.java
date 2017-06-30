@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 
 public class WXApiUrls {
 
+    private static String accessToken;
+
     private static final String ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
 
     private static final String MENU_SAVE = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s";
@@ -71,6 +73,10 @@ public class WXApiUrls {
     }
 
     private static String getAccessToken() {
-        return "c6v02KfKrHhw7QljBAeOQd3HmLcD3n1Xkdi7ie9VMZIpAXvefzXkwTYfX9Fpk7fSoQARMLCRJhfZICyYOKTpkjrPINUwbo9OUs1UjmJwU_7cibepZ9hSGdFo_xVKmO9kKTOdAFAENI";
+        return accessToken;
+    }
+
+    public static void addAccessToken(String accessToken) {
+        WXApiUrls.accessToken = accessToken;
     }
 }
