@@ -1,6 +1,9 @@
 package demo.wx.pub.domain;
 
 
+import com.alibaba.fastjson.JSONObject;
+import demo.wx.pub.utils.TemplateUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -15,7 +18,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * 微信消息对象
@@ -54,8 +59,14 @@ public class Msg {
 
     private String bindUrl;
 
+    private TemplateUtils templateUtils;
+
     public void setBindUrl(String bindUrl) {
         this.bindUrl = bindUrl;
+    }
+
+    public void setTemplateUtils(TemplateUtils templateUtils) {
+        this.templateUtils = templateUtils;
     }
 
     public Msg(String xmldata) throws SAXException {
@@ -131,16 +142,16 @@ public class Msg {
                 break;
             case MSG_TYPE_EVENT:
                 if (MSG_EVENT_TYPE_CLICK.equals(event)) {
-                    fmt = "<xml>" +
-                        "<ToUserName><![CDATA[%s]]></ToUserName>" +
-                        "<FromUserName><![CDATA[%s]]></FromUserName>" +
-                        "<CreateTime>%s</CreateTime>" +
-                        "<MsgType><![CDATA[link]]></MsgType>" +
-                        "<Title><![CDATA[官网链接]]></Title>" +
-                        "<Description><![CDATA[官网链接]]></Description>"+
-                        "<Url><![CDATA[%s]]></Url>"+
-                        "</xml>\n";
-                    msg = String.format(fmt, toUserName, fromUserName, creatTime, String.format("%s?openId=%s", bindUrl, toUserName));
+                    if ("msg1".equals(eventKey)) {
+                        templateUtils.sendTemplateMessage("aSGBRB4mNw-B2xnXBBtd-GWqSSvXq4sxg_LWyq9ypmo", toUserName, "http://demos.shangao.tech", new Object());
+                    } else if ("msg2".equals(eventKey)) {
+                        JSONObject data = new JSONObject();
+                        Random r = new Random();
+                        data.put("num1", Collections.singletonMap("value", r.nextInt()));
+                        data.put("num2", Collections.singletonMap("value", r.nextFloat()));
+                        data.put("ct", Collections.singletonMap("value", DateUtils.formatDate(new Date())));
+                        templateUtils.sendTemplateMessage("-Gl8BXaphBPovHUdz0eNI5uYm5maYlYmWBnGRQhc8so", "obmQ0wZVRNqX9Sg81-2xSobcOdpw", "https://demos.shangao.tech",data);
+                    }
                 }
         }
 

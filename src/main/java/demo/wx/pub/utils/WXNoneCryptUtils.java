@@ -9,7 +9,7 @@ public class WXNoneCryptUtils {
     }
 
     public boolean verify(String msgSignature, String timeStamp, String nonce) {
-        String signature = SHA1.getSHA1(token, timeStamp, nonce);
+        String signature = Sign.signBySHA1(token, timeStamp, nonce);
         return signature.equals(msgSignature);
     }
 }

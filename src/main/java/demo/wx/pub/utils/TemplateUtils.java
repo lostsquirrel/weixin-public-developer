@@ -1,6 +1,7 @@
 package demo.wx.pub.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,5 +18,18 @@ public class TemplateUtils {
         param.put("industry_id1", primary);
         param.put("industry_id2", secondary);
         return HttpUtils.postJsonAsString(WXApiUrls.getSetIndustryUrl(), JSON.toJSONString(param));
+    }
+
+    public String getTemplateList() {
+        return HttpUtils.getAsString(WXApiUrls.getTemplateListUrl());
+    }
+
+    public String sendTemplateMessage(String templateId, String toUser, String url, Object data) {
+        JSONObject params = new JSONObject();
+        params.put("touser", toUser);
+        params.put("template_id", templateId);
+        params.put("url", url);
+        params.put("data", data);
+        return HttpUtils.postJsonAsString(WXApiUrls.getTemplateSendUrl(), JSON.toJSONString(params));
     }
 }

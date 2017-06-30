@@ -26,7 +26,7 @@ public class HttpUtils {
 
     public static String getAsString(String url) {
         HttpGet httpGet = new HttpGet(url);
-        httpGet.setHeader("Content-Type", ContentType.create("text/plain", "utf-8").toString());
+//        httpGet.setHeader("Content-Type", ContentType.create("text/plain", "utf-8").toString());
         String content = null;
         try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
             log.debug("{}\n{}", url, response1.getStatusLine());
@@ -44,7 +44,7 @@ public class HttpUtils {
         InputStream res = entity.getContent();
         ContentType ct = ContentType.getOrDefault(entity);
         Charset charset = ct.getCharset();
-        log.debug("{}", charset);
+        log.debug("charset:{}", charset);
         StringBuilder sb = new StringBuilder();
         if (res != null){
             try (
@@ -69,15 +69,15 @@ public class HttpUtils {
             }
             s = new String(bytes, Charset.defaultCharset());
         }
-        log.debug(s);
+        log.debug("response: {}", s);
         return s;
     }
 
     public static String postJsonAsString(String url, String JsonParams) {
         HttpPost httpPost = new HttpPost(url);
 //        httpPost.
-        log.debug("{}", url);
-        log.debug("{}", JsonParams);
+        log.debug("url:{}", url);
+        log.debug("param:{}", JsonParams);
         String content = null;
         if (StringUtils.hasLength(JsonParams)){
             httpPost.setEntity(new StringEntity(JsonParams, ContentType.APPLICATION_JSON));

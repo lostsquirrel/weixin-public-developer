@@ -21,6 +21,10 @@ public class WXApiUrls {
 
     private static final String WEB_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
 
+    private static final String TEMPLATE_LIST = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=%s";
+
+    private static final String TEMPLATE_SEND = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
+
     public static String getAccessTokenUrl(String appId, String secret) {
         return String.format(ACCESS_TOKEN, appId, secret);
     }
@@ -45,6 +49,14 @@ public class WXApiUrls {
         return String.format(SET_INDUSTRY, getAccessToken());
     }
 
+    public static String getTemplateSendUrl() {
+        return String.format(TEMPLATE_SEND, getAccessToken());
+    }
+
+    public static String getTemplateListUrl() {
+        return String.format(TEMPLATE_LIST, getAccessToken());
+    }
+
     public static String getWebAccessTokenUrl(String appId, String secret, String code) {
         return String.format(WEB_ACCESS_TOKEN, appId, secret, code);
     }
@@ -59,6 +71,6 @@ public class WXApiUrls {
     }
 
     private static String getAccessToken() {
-        return "XuEKuYj0cgCKWdMTSibAw13xMlPAbrPXqjEkfYXsJDkFphKtesiPWH9UYVaE0COA4_OMHp9qI1U1libpX25O2qc_4lc1z8D2LJXKoLJpRmtr7yiO4Kuf7SOEHGRdxIHoXPHaADAFXP";
+        return "c6v02KfKrHhw7QljBAeOQd3HmLcD3n1Xkdi7ie9VMZIpAXvefzXkwTYfX9Fpk7fSoQARMLCRJhfZICyYOKTpkjrPINUwbo9OUs1UjmJwU_7cibepZ9hSGdFo_xVKmO9kKTOdAFAENI";
     }
 }

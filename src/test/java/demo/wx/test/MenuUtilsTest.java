@@ -23,22 +23,27 @@ public class MenuUtilsTest {
 //        String url = "https://demos.shangao.tech/api/wx/public/bind";
 //        String url = WXApiUrls.getPageBase(appId, rl, "123");
         String menuJson = "{\n" +
-            "     \"button\":[\n" +
-            "     {\t\n" +
-            "          \"type\":\"click\",\n" +
-            "          \"name\":\"消息\",\n" +
-            "          \"key\":\"\"\n" +
-            "      },\n" +
-            "      {\n" +
-            "           \"name\":\"菜单\",\n" +
-            "           \"sub_button\":[\n" +
-            "           {\t\n" +
-            "               \"type\":\"view\",\n" +
-            "               \"name\":\"绑定\",\n" +
-            "               \"url\":\"https://demos.shangao.tech/api/wx/public/auth\"\n" +
-            "            }]\n" +
-            "       }]\n" +
-            " }";
+            "    \"button\":[\n" +
+            "    {\n" +
+            "         \"name\":\"消息\",\n" +
+            "         \"sub_button\":[\n" +
+            "         {\n" +
+            "             \"type\":\"click\",\n" +
+            "             \"name\":\"消息无数据\",\n" +
+            "             \"key\":\"msg1\"\n" +
+            "          }]\n" +
+            "\n" +
+            "     },\n" +
+            "     {\n" +
+            "          \"name\":\"菜单\",\n" +
+            "          \"sub_button\":[\n" +
+            "          {\n" +
+            "              \"type\":\"view\",\n" +
+            "              \"name\":\"绑定\",\n" +
+            "              \"url\":\"https://demos.shangao.tech/api/wx/public/auth\"\n" +
+            "           }]\n" +
+            "      }]\n" +
+            "}";
         Charset charset = Charset.defaultCharset();
         log.debug(charset.toString());
         boolean result = menu.addMenu(new String(menuJson.getBytes(), charset));
