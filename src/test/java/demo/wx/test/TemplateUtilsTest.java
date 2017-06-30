@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 
-public class TemplateUtilsTest {
+public class TemplateUtilsTest extends WXTestBase {
 
     private static final Logger log = LoggerFactory.getLogger(TemplateUtilsTest.class);
 

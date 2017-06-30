@@ -20,10 +20,6 @@ public class MenuUtilsTest {
 
     String appId = "wxc1f80b55c40593d5";
 
-    @BeforeClass
-    public static void init() {
-        WXApiUrls.addAccessToken(AccessTokenUtilsTest.ACCESS_TOKEN);
-    }
     @Test
     public void testAdd() throws UnsupportedEncodingException {
 //        String url = "https://demos.shangao.tech/api/wx/public/bind";

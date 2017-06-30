@@ -21,12 +21,15 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 微信消息对象
  */
 public class Msg {
 
+    private static ExecutorService tp = Executors.newCachedThreadPool();
     private static final String MSG_TYPE_TEXT = "text";
 
     private static final String MSG_TYPE_IMAGE = "image";
@@ -143,17 +146,18 @@ public class Msg {
             case MSG_TYPE_EVENT:
                 if (MSG_EVENT_TYPE_CLICK.equals(event)) {
                     if ("msg1".equals(eventKey)) {
-                        templateUtils.sendTemplateMessage("aSGBRB4mNw-B2xnXBBtd-GWqSSvXq4sxg_LWyq9ypmo", toUserName, "http://demos.shangao.tech", new Object());
+                        tp.execute(() -> templateUtils.sendTemplateMessage("aSGBRB4mNw-B2xnXBBtd-GWqSSvXq4sxg_LWyq9ypmo", toUserName, "http://demos.shangao.tech", new Object()));
 
                     } else if ("msg2".equals(eventKey)) {
-                        JSONObject data = new JSONObject();
-                        Random r = new Random();
-                        data.put("num1", Collections.singletonMap("value", r.nextInt()));
-                        data.put("num2", Collections.singletonMap("value", r.nextFloat()));
-                        data.put("ct", Collections.singletonMap("value", DateUtils.formatDate(new Date())));
-                        templateUtils.sendTemplateMessage("-Gl8BXaphBPovHUdz0eNI5uYm5maYlYmWBnGRQhc8so", "obmQ0wZVRNqX9Sg81-2xSobcOdpw", "https://demos.shangao.tech",data);
-                    }
-                    msg = null;
+                        tp.execute(() -> {
+                            JSONObject data = new JSONObject();
+                            Random r = new Random();
+                            data.put("num1", Collections.singletonMap("value", r.nextInt()));
+                            data.put("num2", Collections.singletonMap("value", r.nextFloat()));
+                            data.put("ct", Collections.singletonMap("value", DateUtils.formatDate(new Date())));
+                            templateUtils.sendTemplateMessage("-Gl8BXaphBPovHUdz0eNI5uYm5maYlYmWBnGRQhc8so", "obmQ0wZVRNqX9Sg81-2xSobcOdpw", "https://demos.shangao.tech",data);
+                        });
+                       }
                 }
         }
 

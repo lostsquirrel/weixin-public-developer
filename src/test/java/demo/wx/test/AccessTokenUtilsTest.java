@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = Application.class)
 public class AccessTokenUtilsTest {
 
-    public static String ACCESS_TOKEN = "0ylBpvBkLLASoRQ8-nvNfULw32M79amQDwOobMh3goUK5WCoBfBl8_yfGT3akOrtQGQcNpMTJIsE-ZC7FbDC93rYHbEkfV_NW9ENU0DC1GtRwEqd0jzk58oAamYurbVySVIgAEAZCP";
+    public static String ACCESS_TOKEN = "6tl3zO2uZzb1u7nhWfZrDd47Y7G6I0doNUVycKml_maucRqs-oMDjLinDOsNervfQZi8u7X3K36AJYL-npoXcKmbrQXS44ftNVV1HdfvTmuyv6O8dCGIUHaeh3zlGHYhGNZaACAUBN";
 
     private static final Logger log = LoggerFactory.getLogger(AccessTokenUtilsTest.class);
 
