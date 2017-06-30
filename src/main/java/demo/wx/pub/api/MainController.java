@@ -105,8 +105,9 @@ public class MainController {
 //            交换收发人
             msg.setFromUserName(tu);
             msg.setToUserName(fu);
-            log.debug("returned msg: {}", msg);
-            return msg.toString();
+            String s = msg.toString();
+            log.debug("returned msg: {}", s);
+            return s;
         } catch (SAXException e) {
             e.printStackTrace();
         }
