@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import demo.wx.pub.conf.WXProp;
 import demo.wx.pub.domain.Msg;
 import demo.wx.pub.utils.HttpUtils;
+import demo.wx.pub.utils.TemplateUtils;
 import demo.wx.pub.utils.WXApiUrls;
 import demo.wx.pub.utils.WXNoneCryptUtils;
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ public class MainController {
     private String realBindUrl;
 
     private final WXProp wxProp;
+
+    @Autowired
+    private TemplateUtils templateUtils;
 
     @Autowired
     public MainController(WXNoneCryptUtils wxNoneCryptUtil, WXProp wxProp) {
@@ -95,6 +99,7 @@ public class MainController {
         try {
             Msg msg = new Msg(data);
             msg.setBindUrl(bindUrl);
+            msg.setTemplateUtils(templateUtils);
             String fu = msg.getFromUserName();
             String tu = msg.getToUserName();
 //            交换收发人

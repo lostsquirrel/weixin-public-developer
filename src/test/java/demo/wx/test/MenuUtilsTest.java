@@ -31,7 +31,13 @@ public class MenuUtilsTest {
             "             \"type\":\"click\",\n" +
             "             \"name\":\"消息无数据\",\n" +
             "             \"key\":\"msg1\"\n" +
-            "          }]\n" +
+            "          }" +
+            "         {\n" +
+            "             \"type\":\"click\",\n" +
+            "             \"name\":\"消息有数据\",\n" +
+            "             \"key\":\"msg2\"\n" +
+            "          }" +
+            "]\n" +
             "\n" +
             "     },\n" +
             "     {\n" +
