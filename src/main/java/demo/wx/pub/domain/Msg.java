@@ -115,7 +115,7 @@ public class Msg {
     @Override
     public String toString() {
         String msg = "success";
-        long creatTime = new Date().getTime() / 1000;
+        long createTime = new Date().getTime() / 1000;
         switch (type) {
             case MSG_TYPE_TEXT:
                 String fmt = "<xml>" +
@@ -126,7 +126,7 @@ public class Msg {
                     "<Content><![CDATA[%s]]></Content>" +
                     "</xml>\n";
                 String content = new String(this.content.getBytes(), Charset.forName("UTF-8"));
-                msg = String.format(fmt, toUserName, fromUserName, creatTime, type, content);
+                msg = String.format(fmt, toUserName, fromUserName, createTime, type, content);
                 break;
             case MSG_TYPE_IMAGE:
                 fmt = "<xml>" +
@@ -138,12 +138,13 @@ public class Msg {
                     "<MediaId><![CDATA[%s]]></MediaId>" +
                     "</Image>" +
                     "</xml>\n";
-                msg = String.format(fmt, toUserName, fromUserName, creatTime, mediaId);
+                msg = String.format(fmt, toUserName, fromUserName, createTime, mediaId);
                 break;
             case MSG_TYPE_EVENT:
                 if (MSG_EVENT_TYPE_CLICK.equals(event)) {
                     if ("msg1".equals(eventKey)) {
                         templateUtils.sendTemplateMessage("aSGBRB4mNw-B2xnXBBtd-GWqSSvXq4sxg_LWyq9ypmo", toUserName, "http://demos.shangao.tech", new Object());
+
                     } else if ("msg2".equals(eventKey)) {
                         JSONObject data = new JSONObject();
                         Random r = new Random();
@@ -152,6 +153,7 @@ public class Msg {
                         data.put("ct", Collections.singletonMap("value", DateUtils.formatDate(new Date())));
                         templateUtils.sendTemplateMessage("-Gl8BXaphBPovHUdz0eNI5uYm5maYlYmWBnGRQhc8so", "obmQ0wZVRNqX9Sg81-2xSobcOdpw", "https://demos.shangao.tech",data);
                     }
+                    msg = null;
                 }
         }
 
