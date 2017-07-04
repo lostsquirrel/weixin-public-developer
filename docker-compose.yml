@@ -4,5 +4,5 @@ services:
     worker:
         image: registry.cn-hangzhou.aliyuncs.com/lisong/weixin-public-developer:$VERSION
         ports:
-            - "127.0.0.1:8088:8080"
+            - "0.0.0.0:8088:8080"
 
